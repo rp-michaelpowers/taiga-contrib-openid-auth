@@ -78,11 +78,14 @@ OpenIDLoginButtonDirective = ($window, $params, $location, $config, $events, $co
 		loginWithOpenIDAccount()
 
 
-		$el.on "click", ".button-auth", (event) ->
-			console.log(redirectURL());
+		startAuthFlow = ->
 			redirectToUri = redirectURL();
 			url = "#{AUTH_URL}?redirect_uri=#{redirectToUri}&client_id=taiga&response_type=code"
 			window.location.href = url
+		
+		$el.on "click", ".button-auth", (event) -> startAuthFlow()
+		if $params.openid_auth
+			startAuthFlow()
 
 		$scope.$on "$destroy", ->
 			$el.off()
