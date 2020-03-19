@@ -34,6 +34,7 @@ OpenIDLoginButtonDirective = ($window, $params, $location, $config, $events, $co
 
 	link = ($scope, $el, $attrs) ->
 		AUTH_URL = $config.get("openidAuth", null)
+		CLIENT_ID = $config.get("openidClientId", "taiga")
 		$scope.openid_name = $config.get("openidName", "openid-connect")
 		loginOnSuccess = (response) ->
 			if $params.next and $params.next != $navUrls.resolve("login")
@@ -80,7 +81,7 @@ OpenIDLoginButtonDirective = ($window, $params, $location, $config, $events, $co
 
 		startAuthFlow = ->
 			redirectToUri = redirectURL();
-			url = "#{AUTH_URL}?redirect_uri=#{redirectToUri}&client_id=taiga&response_type=code"
+			url = "#{AUTH_URL}?redirect_uri=#{redirectToUri}&client_id=#{CLIENT_ID}&response_type=code"
 			window.location.href = url
 		
 		$el.on "click", ".button-auth", (event) -> startAuthFlow()
